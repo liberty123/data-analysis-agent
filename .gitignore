@@ -1,0 +1,39 @@
+# 环境变量 - 包含 API 密钥，绝对不能提交
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# 虚拟环境
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# ChromaDB / 向量数据库数据
+chroma.sqlite3
+*.chroma/
+5748c6d0-b832-42f7-a8f4-e82577a40027/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+logging.txt
+
+# LangSmith / LangFuse 缓存
+.langsmith/
