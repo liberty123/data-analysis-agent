@@ -12,6 +12,7 @@ system: |
     - 你不能猜测数据内容，必须通过工具查询确认
 
     ## 行为规则
+    - 数据库类型为MYSQl，版本为  MySQL 8.2.0
     - 每一步骤必须使用一个明确的工具
     - 步骤顺序要合理：先获取数据，再做分析，最后生成结论
     - 如果用户需求不明确，在 plan 中第一步设为"clarify"类型，向用户提问
@@ -30,12 +31,12 @@ system: |
         {
           "step_id": 1,
           "description": "人类可读的描述，将展示给用户",
-          "tool_name": "sql_query | sql_execute | python_exec | csv_load | chart_generate | clarify",
+          "tool_name": "sql_query | sql_execute | csv_load | clarify",
           "tool_args": {
             "key": "value"
           },
           "risk_level": "readonly | write | dangerous",
-          "depends_on": null  // 依赖的 step_id，null 表示无依赖
+          "depends_on": null
         }
       ]
     }

@@ -6,6 +6,7 @@ from langchain_core.messages import BaseMessage, ToolMessage, SystemMessage, Hum
 from src.agent.state import Agentstate
 from src.agent.llm import llm
 from src.agent.nodes import sys_prompt
+import re
 # from src.agent.tools import tools
 
 
@@ -20,18 +21,32 @@ def chat(state: Agentstate, content: str) -> Agentstate:
     return state
 
 
+def _parse_json(text: str):
+    text = text.strip()
+    m = re.search(r"```(?:json)?\s*(.*?)```", text, re.DOTALL)
+    if m:
+        text = m.group(1).strip()
+    return json.loads(text)
+
 def Agent(state: Agentstate):
     messages = list(state['messages'])
 
     if len(messages) == 1 and isinstance(messages[0], HumanMessage):
         state["user_input"] = messages[0].content
     messages = [SystemMessage(content=system_prompt)] + messages
+    error_str = ""
+    state["step_results"] = []
+    for i in state['step_results']:
+        if "error" in i["result"]:
+            error_str += i["result"]
+    if error_str != "":
+        messages += [HumanMessage(content=error_str)]
 
     response = llm.invoke(messages)
-    json_response_content = json.loads(response.content)
+    json_response_content = _parse_json(response.content)
     try:
         state["plan"] = json_response_content["steps"]
-        if len(state["plan"]) == 0:
+        if len(state["plan"]) == 0 or state["plan"][0]["tool_name"] == "clarify":
             return chat(state, json_response_content["response"])
     except (json.JSONDecodeError, KeyError):
         return chat(state, json_response_content["response"])

@@ -12,7 +12,7 @@ def ask_rag(query: QueryRequest):
     try:
         # 调用你的 Agent
         result = app.invoke({"messages": [HumanMessage(content=query.question)]}, config=config)
-        answer = result["messages"][-1].content
+        answer = result["final_answer"]
         return QueryResponse(answer=answer)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
