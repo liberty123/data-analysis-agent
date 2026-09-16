@@ -12,7 +12,7 @@ llm = ChatOpenAI(
     model="deepseek-v4-pro",  # 或 "deepseek-reasoner"
     api_key=os.getenv("DEEPSEEK_API_KEY"),
     base_url=os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com/v1"),
-    temperature=0.7
+    temperature=0
 )
 
 
