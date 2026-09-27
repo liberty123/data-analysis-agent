@@ -3,10 +3,14 @@
 # @Time    : 2026/7/23 18:18
 # @Author  : name
 # @File    : database.py
+import os
+
+from dotenv import load_dotenv
 from dbutils.pooled_db import PooledDB
 from pymysql.cursors import DictCursor
 import pymysql
 
+load_dotenv()
 
 # 建立连接
 _pool = PooledDB(
@@ -15,10 +19,10 @@ _pool = PooledDB(
     mincached=2,  # 空闲时保留 2 个
     maxcached=5,  # 最多缓存 5 个
     blocking=True,  # 连接耗尽时等待而不是报错
-    host='localhost',
-    user='root',
-    password='',
-    database='agent',
+    host=os.getenv("MYSQL_HOST", "localhost"),
+    user=os.getenv("MYSQL_USER", "root"),
+    password=os.getenv("MYSQL_PASSWORD", ""),
+    database=os.getenv("MYSQL_DATABASE", "agent"),
     charset='utf8mb4',
     cursorclass=DictCursor
 )

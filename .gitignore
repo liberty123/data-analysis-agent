@@ -8,6 +8,8 @@ dist/
 build/
 
 venv/
+.venv/
+
 
 .idea/
 .vscode/
